@@ -10,7 +10,7 @@ A bilingual (Chinese/English) blog theme for [Astro](https://astro.build), theme
 
 1. Clone & Enter the repo:
 ```bash
-git clone git@github.com:devLythen/astro-endfield-theme.git astro-blog
+git clone https://github.com/devLythen/astro-endfield-theme.git astro-blog
 cd astro-blog
 ```
 

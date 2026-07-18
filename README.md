@@ -13,21 +13,20 @@ bun create astro@latest my-blog -- --template devLythen/astro-endfield-theme
 cd my-blog && bun run dev
 ```
 
-## Customize
 
-Edit `src/theme.config.ts`:
+Copy and edit `theme.toml.example` → `theme.toml`:
 
-```ts
-export default {
-  site: {
-    title: "My Blog",
-    lang: "zh-CN",
-  },
-  about: {
-    description: "wow another blog",
-    tagline: "OBSERVE · RECORD · CREATE",
-  },
-};
+```toml
+[site]
+title = "My Blog"
+lang = "zh-CN"
+
+[about]
+description = "wow another blog"
+tagline = "OBSERVE · RECORD · CREATE"
+
+# [build]
+# outDir = "dist"
 ```
 
 ## Create Posts

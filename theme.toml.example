@@ -1,0 +1,11 @@
+# Rename this file to theme.toml and customize
+[site]
+title = "My Blog"
+lang = "zh-CN"
+
+[about]
+description = "这里是你的博客。"
+tagline = "OBSERVE · RECORD · CREATE"
+
+[build]
+outDir = "dist"

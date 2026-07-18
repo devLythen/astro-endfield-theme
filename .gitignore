@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+# User content — never tracked, safe from git pull
+src/content/posts/*
+!src/content/posts/hello-endfield.md
+astro.config.mjs
+bun.lock

@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.description} fullWidth>
+  <article class="post-article">
+    <a href="/" class="post-back">&larr; 返回</a>
+
+    <div class="bilingual-title">
+      <div class="vertical-decor">
+        <span class="vertical-text">READ</span>
+      </div>
+      <h1 class="zh" style="font-size:2.2rem;margin:0;">{post.data.title}</h1>
+      <div class="en" style="font-family:var(--font-display);">Article</div>
+    </div>
+
+    <div class="post-meta">
+      {post.data.date && (
+        <time datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      )}
+      {post.data.tags.length > 0 && (
+        <ul class="post-tags">
+          {post.data.tags.map((tag: string) => <li>{tag}</li>)}
+        </ul>
+      )}
+    </div>
+
+    <div class="bar-accent"></div>
+
+    <div class="post-body">
+      <Content />
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;">
+      <div class="dot-cluster" style="justify-content:center;">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style is:global>
+  .post-article {
+    width: 100%;
+  }
+
+  .post-back {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-bottom: 2rem;
+    font-family: var(--font-bender);
+    letter-spacing: 0.04em;
+  }
+  .post-back:hover { color: var(--text-primary); }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  .post-tags {
+    display: flex; gap: 0.3rem;
+    list-style: none; padding: 0; margin: 0;
+  }
+  .post-tags li {
+    font-size: 0.62rem;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--line-border);
+    border-radius: 2px;
+  }
+
+  .post-body {
+    margin-top: 0.5rem;
+    line-height: 1.9;
+    font-size: 1rem;
+  }
+  .post-body h2 {
+    font-size: 1.3rem;
+    margin-top: 2.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--line-border);
+  }
+  .post-body h3 { font-size: 1.1rem; margin-top: 2rem; }
+  .post-body p { margin: 1rem 0; }
+  .post-body li { margin: 0.3rem 0; }
+  .post-body strong { color: var(--text-primary); }
+  .post-body .katex-display { margin: 1.5rem 0 !important; }
+</style>

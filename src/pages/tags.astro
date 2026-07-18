@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const posts = await getCollection('posts');
+const allTags = new Set<string>();
+for (const post of posts) {
+  for (const tag of post.data.tags) allTags.add(tag);
+}
+---
+
+<Layout title="Tags">
+  <div class="bilingual-title">
+    <div class="vertical-decor">
+      <span class="vertical-text">TAGS</span>
+    </div>
+    <div class="zh">标签</div>
+    <div class="en font-novecento">Tags</div>
+  </div>
+
+  <div class="bar-accent"></div>
+
+  <div class="tags-cloud">
+    {[...allTags].sort().map(tag => (
+      <span class="tag-item">{tag}</span>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .tag-item {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--line-border);
+    font-family: var(--font-mono);
+    cursor: default;
+    transition: all var(--transition-fast);
+  }
+  .tag-item:hover {
+    border-color: var(--emphasis-bg);
+    background: var(--emphasis-bg);
+    color: var(--emphasis-text);
+  }
+</style>

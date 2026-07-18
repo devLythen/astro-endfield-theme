@@ -1,0 +1,20 @@
+{
+  "name": "astro-endfield-theme",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.1",
+    "@astrojs/react": "^6.0.0",
+    "astro": "^7.0.0",
+    "katex": "^0.17.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rehype-katex": "^7.0.0",
+    "remark-math": "^6.0.0"
+  }
+}

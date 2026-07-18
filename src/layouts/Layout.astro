@@ -1,0 +1,353 @@
+---
+import '../styles/global.css';
+import '../styles/patterns.css';
+import theme from '../theme.config';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  fullWidth?: boolean;
+}
+
+const { title, description, fullWidth = false } = Astro.props;
+const pageTitle = title ? `${title} — ${theme.site.title}` : theme.site.title;
+
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isPosts = path === '' || path === '/' || path.startsWith('/posts');
+const isAbout = path === '/about';
+const isTags = path === '/tags';
+---
+
+<html lang={theme.site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.cdnfonts.com/css/novecento-wide" rel="stylesheet" />
+    <link href="https://fonts.cdnfonts.com/css/bender" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" crossorigin="anonymous" />
+
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-body); line-height: 1.75; }
+      h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.3; color: var(--text-primary); }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.35rem; margin-top: 2.5rem; }
+      h3 { font-size: 1.1rem; margin-top: 2rem; }
+      p { margin: 0.75rem 0; }
+      a { color: var(--text-primary); text-decoration: none; transition: color var(--transition-fast); }
+      a:hover { color: var(--text-secondary); }
+      .emphasis { background: var(--emphasis-bg); color: var(--emphasis-text); padding: 0.1em 0.3em; font-weight: 600; }
+      mark { background: var(--emphasis-bg); color: var(--emphasis-text); padding: 0.05em 0.2em; }
+      code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-soft); color: var(--text-primary); padding: 0.15em 0.4em; border-radius: 3px; }
+      pre { background: var(--bg-soft) !important; border: 1px solid var(--line-border); border-radius: 6px; padding: 1.25rem; overflow-x: auto; margin: 1rem 0; }
+      pre code { background: none; padding: 0; }
+      blockquote { border-left: 3px solid var(--emphasis-bg); padding: 0.5rem 1rem; margin: 1rem 0; background: var(--bg-soft); }
+      table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+      th, td { padding: 0.6rem 1rem; border: 1px solid var(--line-border); }
+      th { background: var(--bg-soft); font-weight: 600; }
+      img { max-width: 100%; height: auto; }
+      ul, ol { padding-left: 1.5rem; }
+      hr { border: none; border-top: 1px solid var(--line-divider); margin: 2rem 0; }
+      ::selection { background: var(--emphasis-bg); color: var(--emphasis-text); }
+      ::-webkit-scrollbar { width: 5px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+      .katex { font-size: 1.05em !important; }
+      .katex-display { margin: 1.25rem 0 !important; overflow-x: auto; overflow-y: hidden; }
+
+      /* Layout */
+      .app-shell { display: flex; min-height: 100vh; }
+      .sidebar {
+        position: fixed; top: 0; left: 0;
+        width: var(--sidebar-width); height: 100vh;
+        padding: 2rem 1.5rem;
+        border-right: 1px solid var(--line-border);
+        background: var(--bg-sidebar);
+        display: flex; flex-direction: column; z-index: 10;
+      }
+      .sidebar-brand {
+        font-family: var(--font-display); font-weight: 700;
+        font-size: 0.95rem; letter-spacing: 0.04em;
+        text-transform: uppercase; color: var(--text-primary);
+        margin-bottom: 2.5rem;
+        display: flex; align-items: center; gap: 0.5rem;
+      }
+      .sidebar-brand-dot { width: 6px; height: 6px; background: var(--emphasis-bg); }
+      .sidebar-nav { list-style: none; padding: 0; flex: 1; }
+      .sidebar-nav li { margin-bottom: 0.15rem; }
+      .sidebar-nav a {
+        display: flex; align-items: center; gap: 0.5rem;
+        padding: 0.4rem 0.6rem; border-radius: 4px;
+        font-size: 0.82rem; font-weight: 500;
+        color: var(--text-secondary);
+        transition: all var(--transition-fast);
+      }
+      .sidebar-nav a:hover { color: var(--text-primary); background: var(--bg-soft); }
+      .sidebar-nav a.active {
+        color: var(--text-on-yellow); background: var(--emphasis-bg); font-weight: 600;
+      }
+      .sidebar-nav a.active::before { content: '■'; font-size: 0.5rem; }
+      .sidebar-vertical-decor {
+        position: absolute; right: 0.4rem; top: 50%;
+        transform: translateY(-50%); opacity: 0.2;
+      }
+      .sidebar-footer {
+        margin-top: auto; font-size: 0.6rem;
+        color: var(--text-tertiary);
+        font-family: var(--font-bender); letter-spacing: 0.06em;
+      }
+
+      .main-content {
+        margin-left: var(--sidebar-width);
+        flex: 1; min-height: 100vh;
+        padding: 2.5rem 3rem;
+        max-width: calc(var(--sidebar-width) + var(--content-max) + 6rem);
+        position: relative;
+      }
+      .main-content.full-width {
+        margin-left: auto; margin-right: auto;
+        width: 80%; max-width: 1000px;
+        padding: 3rem 2rem;
+      }
+
+      /* Page Transition — block only visible during motion */
+      .page-transition { position: fixed; inset: 0; z-index: 1000; pointer-events: none; overflow: hidden; }
+      .page-transition-block {
+        position: fixed; inset: 0;
+        background: var(--emphasis-bg);
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      /* Exiting page: block slides in from right */
+      .page-transition-block.animate-in {
+        transform: translateX(0);
+        opacity: 1;
+        transition: transform 500ms cubic-bezier(0.7, 0, 0.3, 1);
+      }
+
+      /* Entering page: cover + fade handled by injected style + inline transitions */
+
+      /* Bilingual title */
+      .bilingual-title { position: relative; }
+      .bilingual-title .zh { font-weight: 800; font-size: 2.5rem; letter-spacing: 0.02em; color: var(--text-primary); }
+      .bilingual-title .en {
+        font-family: var(--font-display); font-weight: 600;
+        font-size: 0.8rem; color: var(--text-tertiary);
+        text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.2rem;
+      }
+      .bilingual-title .vertical-decor {
+        position: absolute; left: -2rem; top: 0;
+        height: 100%; display: flex; align-items: center;
+      }
+
+      /* Whitespace decorations */
+      .deco-halftone {
+        position: absolute; pointer-events: none; user-select: none; z-index: 0;
+      }
+      .deco-diagonal {
+        position: absolute; pointer-events: none; user-select: none; z-index: 0;
+      }
+
+      @media (max-width: 768px) {
+        .app-shell { flex-direction: column; }
+        .sidebar {
+          width: 100%; height: auto; position: relative;
+          border-right: none; border-bottom: 1px solid var(--line-border);
+          padding: 0.75rem 1rem; flex-direction: row; align-items: center;
+          flex-wrap: wrap; gap: 0.5rem;
+        }
+        .sidebar-brand { margin-bottom: 0; font-size: 0.85rem; }
+        .sidebar-nav { display: flex; gap: 0.25rem; flex: none; }
+        .sidebar-nav a { font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+        .sidebar-vertical-decor { display: none; }
+        .sidebar-footer { display: none; }
+        .main-content { margin-left: 0; padding: 1.25rem 0.75rem; max-width: 100%; }
+        .main-content.full-width { width: 100%; padding: 1.25rem 0.75rem; }
+        .bilingual-title .zh { font-size: 1.6rem; }
+        .bilingual-title .vertical-decor { display: none; }
+        .deco-halftone, .deco-diagonal { display: none; }
+      }
+    </style>
+
+    <script is:inline>
+      (function() {
+        if (sessionStorage.getItem('nav') === '1') {
+          var s = document.createElement('style');
+          s.id = 'tr-cover';
+          s.textContent = '#transition-block{transform:translateX(0);opacity:1}#main-content{opacity:0}';
+          document.head.appendChild(s);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="page-transition" aria-hidden="true">
+      <div class="page-transition-block" id="transition-block"></div>
+    </div>
+
+    <div class="app-shell">
+      {!fullWidth && (
+        <aside class="sidebar">
+          <a href="/" class="sidebar-brand">
+            <span class="sidebar-brand-dot flicker"></span>
+            {theme.site.title}
+          </a>
+          <nav>
+            <ul class="sidebar-nav">
+              <li><a href="/" class={isPosts ? 'active' : ''}>Posts</a></li>
+              <li><a href="/about" class={isAbout ? 'active' : ''}>About</a></li>
+              <li><a href="/tags" class={isTags ? 'active' : ''}>Tags</a></li>
+            </ul>
+          </nav>
+          <div class="sidebar-vertical-decor">
+            <span class="vertical-text">BLOG</span>
+          </div>
+          <div class="sidebar-footer">powered by astro</div>
+        </aside>
+      )}
+
+      <main class={`main-content${fullWidth ? ' full-width' : ''}`} id="main-content">
+
+        <!-- Halftone decoration -->
+        <div class="deco-halftone" style="top:3rem;right:-3rem;width:140px;height:220px;opacity:0.25;
+          background-image:radial-gradient(circle,var(--deco-dot) 1px,transparent 1px);
+          background-size:10px 10px;">
+        </div>
+        <!-- Diagonal block shadow -->
+        <div class="deco-diagonal" style="bottom:2rem;right:-1rem;width:90px;height:70px;opacity:0.3;
+          background:var(--deco-block);
+          clip-path:polygon(25% 0,100% 0,100% 75%);">
+        </div>
+
+        <slot />
+
+        <!-- Bottom halftone -->
+        <div class="deco-halftone" style="bottom:6rem;left:-2rem;width:100px;height:160px;opacity:0.15;
+          background-image:radial-gradient(circle,var(--deco-dot) 1px,transparent 1px);
+          background-size:10px 10px;">
+        </div>
+      </main>
+    </div>
+
+    <script is:inline>
+      (function() {
+        var block = document.getElementById('transition-block');
+        if (!block) return;
+        var content = document.getElementById('main-content');
+        var running = false;
+
+        // --- Page enter animation: only for cross-page navigation ---
+        var isNav = sessionStorage.getItem('nav') === '1';
+        sessionStorage.removeItem('nav');
+        if (isNav) {
+          block.style.transform = 'translateX(0)';
+          block.style.opacity = '1';
+          if (content) content.style.opacity = '0';
+          var enterDone = false;
+          function startEnterAnim() {
+            if (enterDone) return;
+            enterDone = true;
+            var coverStyle = document.getElementById('tr-cover');
+            if (coverStyle) coverStyle.remove();
+            if (content) {
+              content.style.transition = 'opacity 400ms cubic-bezier(0.7,0,0.3,1) 200ms';
+              content.style.opacity = '1';
+            }
+            var start = null;
+            function fadeStep(ts) {
+              if (!start) start = ts;
+              var p = Math.min((ts - start) / 400, 1);
+              block.style.opacity = 1 - p;
+              if (p < 1) {
+                requestAnimationFrame(fadeStep);
+              } else {
+                block.style.opacity = '';
+                block.style.transform = '';
+                if (content) {
+                  content.style.transition = '';
+                  content.style.opacity = '';
+                }
+              }
+            }
+            requestAnimationFrame(fadeStep);
+          }
+          setTimeout(function() {
+            requestAnimationFrame(function() {
+              requestAnimationFrame(startEnterAnim);
+            });
+          }, 300);
+        }
+
+        // --- Bfcache restore: page was left with block covering → fades out ---
+        window.addEventListener('pageshow', function(e) {
+          running = false; // Reset navigation guard on restore
+          if (!e.persisted) return;
+          if (block.classList.contains('animate-in')) {
+            requestAnimationFrame(function() {
+              var a1 = block.animate(
+                { opacity: [1, 0] },
+                { duration: 400, easing: 'cubic-bezier(0.7,0,0.3,1)', fill: 'forwards' }
+              );
+              var a2 = null;
+              if (content) {
+                a2 = content.animate(
+                  { opacity: [0, 1] },
+                  { duration: 400, delay: 200, easing: 'cubic-bezier(0.7,0,0.3,1)', fill: 'forwards' }
+                );
+              }
+              setTimeout(function() {
+                block.style.transition = 'none';
+                block.style.opacity = '';
+                block.classList.remove('animate-in');
+                a1.cancel();
+                if (a2) a2.cancel();
+              }, 650);
+            });
+          }
+        });
+
+        // --- Browser back: guard entry so first back press stays on this page ---
+        if (location.pathname.startsWith('/posts')) {
+          if (!history.state || !history.state.guard) {
+            history.pushState({ guard: true }, '', location.href);
+          }
+          var popCount = 0;
+          window.addEventListener('popstate', function() {
+            popCount++;
+            if (popCount === 1 && !running) {
+              navigateTo('/');
+            }
+          });
+        }
+        function navigateTo(url) {
+          if (running) return;
+          running = true;
+          sessionStorage.setItem('nav', '1');
+          block.classList.add('animate-in');
+          setTimeout(function() {
+            window.location.href = url;
+          }, 500);
+        }
+
+        document.addEventListener('click', function(e) {
+          var a = e.target.closest('a[href^="/"]');
+          if (!a) return;
+          if (a.closest('.sidebar-nav')) return;
+          if (a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+          e.preventDefault();
+          navigateTo(a.getAttribute('href'));
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import theme from '../theme.config';
+---
+
+<Layout title="About">
+  <div class="bilingual-title">
+    <div class="vertical-decor">
+      <span class="vertical-text">ABOUT</span>
+    </div>
+    <div class="zh">关于</div>
+    <div class="en font-novecento">About</div>
+  </div>
+
+  <div class="bar-accent"></div>
+
+  <div class="about-content">
+    <p>{theme.about.description}</p>
+
+    <div class="block-diagonal" style="display:inline-block;padding:1.5rem 2rem;margin-top:2rem;">
+      <div class="dot-cluster">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <p class="decorative-bender" style="margin-top:2rem;">
+      {theme.about.tagline}
+    </p>
+  </div>
+</Layout>
+
+<style>
+  .about-content {
+    margin-top: 1.5rem;
+    line-height: 1.9;
+  }
+  .about-content p {
+    font-size: 0.95rem;
+  }
+</style>

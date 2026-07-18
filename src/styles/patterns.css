@@ -1,0 +1,137 @@
+/* ===== Decorative Patterns — Light Theme ===== */
+
+/* Diagonal stripe fill — page-level decoration */
+.pattern-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    var(--deco-stripe) 4px,
+    var(--deco-stripe) 8px
+  );
+}
+
+/* Dot grid */
+.pattern-dots {
+  background-image: radial-gradient(circle, var(--deco-dot) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+/* Checkerboard micro-texture */
+.pattern-checker {
+  background-image:
+    linear-gradient(45deg, var(--deco-stripe) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--deco-stripe) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--deco-stripe) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--deco-stripe) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+}
+
+/* ===== Solid Block Decorations ===== */
+
+/* Horizontal rule — thick line with yellow accent */
+.bar-accent {
+  height: 2px;
+  background: var(--line-divider);
+  margin: 2rem 0;
+  position: relative;
+}
+.bar-accent::after {
+  content: '';
+  position: absolute;
+  left: 0; top: -1px;
+  width: 48px;
+  height: 4px;
+  background: var(--emphasis-bg);
+}
+
+/* Diagonal block shadow — coarse, small, for whitespace corners */
+.block-diagonal {
+  position: relative;
+}
+.block-diagonal::after {
+  content: '';
+  position: absolute;
+  inset: 4px -3px -3px 4px;
+  background: var(--deco-block);
+  z-index: -1;
+  clip-path: polygon(20% 0, 100% 0, 100% 80%);
+}
+
+/* Vertical pillar */
+.pillar-accent {
+  width: 3px;
+  background: var(--emphasis-bg);
+  min-height: 32px;
+}
+
+/* Dot cluster */
+.dot-cluster {
+  display: flex; gap: 6px; opacity: 0.5;
+}
+.dot-cluster span {
+  width: 4px; height: 4px;
+  background: var(--emphasis-bg);
+  border-radius: 50%;
+}
+
+/* ===== Typography Decorations ===== */
+
+/* Novecento Wide — all-caps display for titles, annotations */
+.font-novecento {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Bender — sci-fi decorative text */
+.font-bender {
+  font-family: var(--font-bender);
+  letter-spacing: 0.04em;
+}
+
+/* Vertical text decoration */
+.vertical-text {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* Large decorative text watermark — Novecento, faint */
+.decorative-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  color: var(--deco-stripe);
+  text-transform: uppercase;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Bender decorative running text */
+.decorative-bender {
+  font-family: var(--font-bender);
+  color: var(--text-tertiary);
+  opacity: 0.3;
+  letter-spacing: 0.06em;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ===== Animations ===== */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  30% { opacity: 0.3; }
+  31% { opacity: 1; }
+  60% { opacity: 1; }
+  61% { opacity: 0.2; }
+  62% { opacity: 1; }
+}
+.flicker { animation: flicker 5s infinite; }

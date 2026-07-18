@@ -1,0 +1,50 @@
+:root {
+  /* ===== Brand ===== */
+  --brand-yellow: #FFFA05;
+  --brand-yellow-dim: rgba(255, 250, 5, 0.12);
+
+  /* ===== Backgrounds ===== */
+  --bg-page: #F5F3EF;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FCFAF5;
+  --bg-sidebar: #FFFFFF;
+  --bg-soft: #F0EEE9;
+
+  /* ===== Text ===== */
+  --text-primary: #1a1a1a;
+  --text-body: #2e2e2e;
+  --text-secondary: #6e6e6e;
+  --text-tertiary: #999999;
+  --text-on-yellow: #1a1a1a;
+
+  /* ===== Emphasis (yellow container) ===== */
+  --emphasis-bg: #FFFA05;
+  --emphasis-text: #1a1a1a;
+
+  /* ===== Lines & Borders ===== */
+  --line-border: rgba(0, 0, 0, 0.06);
+  --line-divider: rgba(0, 0, 0, 0.1);
+  --line-hover: rgba(0, 0, 0, 0.15);
+
+  /* ===== Decorative ===== */
+  --deco-block: rgba(255, 250, 5, 0.20);
+  --deco-stripe: rgba(255, 250, 5, 0.08);
+  --deco-dot: rgba(0, 0, 0, 0.06);
+
+  /* ===== Sizing ===== */
+  --sidebar-width: 240px;
+  --content-max: 700px;
+
+  /* ===== Typography ===== */
+  --font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: 'Novecento Wide', 'Inter', sans-serif;
+  --font-bender: 'Bender', 'Inter', sans-serif;
+
+  /* ===== Motion ===== */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 150ms var(--ease-out-expo);
+  --transition-base: 400ms var(--ease-out-expo);
+  --transition-slow: 600ms var(--ease-out-expo);
+}

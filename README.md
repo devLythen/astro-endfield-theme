@@ -8,11 +8,22 @@ A bilingual (Chinese/English) blog theme for [Astro](https://astro.build), theme
 
 ## Quick Start
 
+1. Clone & Enter the repo:
 ```bash
-bun create astro@latest my-blog -- --template devLythen/astro-endfield-theme
-cd my-blog && bun run dev
+git clone git@github.com:devLythen/astro-endfield-theme.git astro-blog
+cd astro-blog
 ```
 
+2. Install the dependencies (bun's example)
+```bash
+bun install
+```
+
+3. Do what you wanna do
+```bash
+bun run dev     # Start developing server
+bun run build   # Build static pages
+```
 
 ## Customize
 

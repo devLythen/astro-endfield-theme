@@ -21,8 +21,8 @@ bun install
 
 3. Do what you wanna do
 ```bash
-bun run dev     # Start developing server
-bun run build   # Build static pages
+bun run dev     # Start the developing server
+bun run build   # Build the static pages
 ```
 
 ## Customize

@@ -14,6 +14,8 @@ cd my-blog && bun run dev
 ```
 
 
+## Customize
+
 Copy and edit `theme.toml.example` → `theme.toml`:
 
 ```toml

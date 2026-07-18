@@ -3,6 +3,6 @@ dist/
 .astro/
 # User content — never tracked, safe from git pull
 src/content/posts/*
-!src/content/posts/hello-endfield.md
+!src/content/posts/.gitkeep
 astro.config.mjs
 bun.lock
